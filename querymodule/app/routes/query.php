@@ -5,6 +5,17 @@ require_once dirname(__FILE__) . '/../ErrorHandler.php';
 require_once dirname(__FILE__) . '/../entitySpecs.php';
 require_once dirname(__FILE__) . '/../AddEmailDatabase.php';
 
+// Set allows headers on Options requests to keep browsers happy, especially if the browser is using SwaggerUI
+$app->options(
+   '/api/:endpoint/query',
+   function () use ($app) {
+       $app->response()->header('Access-Control-Allow-Origin', '*');
+       $app->response()->header('Access-Control-Allow-Headers', 'origin, content-type, accept');
+       $app->response()->header('Access-Control-Allow-Methods','GET, PUT, POST, DELETE, OPTIONS');  
+       $app->response()->header('Access-Control-Expose-Headers','X-Status-Reason');
+   }
+);
+
 // query/q=<query in json format>[&f=<field in json format>][&o=<options in json format>]
 
 //Add to capture the email info
